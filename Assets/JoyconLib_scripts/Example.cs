@@ -59,7 +59,7 @@ public class Example : MonoBehaviour
         // 加速度が閾値を超えたかどうかをチェック
         var accelL = m_joyconL.GetAccel();
         var accelR = m_joyconR.GetAccel();
-        var threshold = 3.0f; // 閾値を設定
+        var threshold = 1.5f; // 閾値を設定
 
         if (accelL.sqrMagnitude > threshold)
         {
