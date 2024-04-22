@@ -16,6 +16,9 @@ public class Example : MonoBehaviour
 
     public GameObject objectToMove; // Add this line to define the object to move
 
+    float a = 1.1f;
+
+    private float moveMultiplier = 1.0f; // 移動量の倍率。この値を変更することで移動量を調整できます。
 
     private void Start()
     {
@@ -56,32 +59,25 @@ public class Example : MonoBehaviour
             m_joyconR.SetRumble(160, 320, 0.6f, 200);
         }
 
-        // 加速度が閾値を超えたかどうかをチェック
+        // 加速度を取得
         var accelL = m_joyconL.GetAccel();
         var accelR = m_joyconR.GetAccel();
-        var threshold = 1.5f; // 閾値を設定
 
-        if (accelL.sqrMagnitude > threshold)
+        // 各成分の絶対値が閾値を超えているかどうかをチェック
+        if ((Mathf.Abs(accelL.x) > a || Mathf.Abs(accelL.y) > a || Mathf.Abs(accelL.z) > a) &&
+            !(Mathf.Abs(accelR.x) > a || Mathf.Abs(accelR.y) > a || Mathf.Abs(accelL.z) > a))
         {
-            Debug.Log("Joy-Con (L) の加速度が閾値を超えました");
+            Debug.Log("Joy-Con (L) の加速度：" + accelL.sqrMagnitude);
+            objectToMove.transform.Translate(Vector3.forward * Time.deltaTime * Mathf.Abs(accelL.sqrMagnitude) * moveMultiplier); // Move the object forward based on the absolute value of acceleration
         }
-        if (accelR.sqrMagnitude > threshold)
+        else if ((Mathf.Abs(accelR.x) > a || Mathf.Abs(accelR.y) > a || Mathf.Abs(accelR.z) > a) &&
+                 !(Mathf.Abs(accelL.x) > a || Mathf.Abs(accelL.y) > a || Mathf.Abs(accelR.z) > a))
         {
-            Debug.Log("Joy-Con (R) の加速度が閾値を超えました");
+            Debug.Log("Joy-Con (R) の加速度：" + accelR.sqrMagnitude);
+            objectToMove.transform.Translate(Vector3.forward * Time.deltaTime * Mathf.Abs(accelR.sqrMagnitude) * moveMultiplier); // Move the object forward based on the absolute value of acceleration
         }
-
-        if (accelL.sqrMagnitude > threshold)
-        {
-            Debug.Log("Joy-Con (L) acceleration exceeded threshold");
-            objectToMove.transform.Translate(Vector3.forward * Time.deltaTime); // Move the object forward
-        }
-        if (accelR.sqrMagnitude > threshold)
-        {
-            Debug.Log("Joy-Con (R) acceleration exceeded threshold");
-            objectToMove.transform.Translate(Vector3.forward * Time.deltaTime); // Move the object forward
-        }
-
     }
+
 
     private void OnGUI()
     {

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ObjRotation : MonoBehaviour
 {
-    MySerial serial;
+    /*MySerial serial;
     float _pitch;
     float _roll;
     public string portNum;
@@ -66,6 +66,6 @@ public class ObjRotation : MonoBehaviour
         Quaternion AddRot = Quaternion.identity;
         AddRot.eulerAngles = new Vector3(-_pitch, 0, -_roll);
         transform.rotation = AddRot;
-    }
+    }*/
 
 }
